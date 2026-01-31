@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}All Users{% endblock %}
+{% block content %}
+<div class="hero">
+    <h1 class="hero-title">All Users</h1>
+    <p class="hero-subtitle">Browse and manage all registered users. Data loaded from the API.</p>
+</div>
+<div class="container-wide">
+    <div class="page-header" style="justify-content: flex-end;">
+        <a href="/" class="btn btn-primary">Add User</a>
+    </div>
+    <div class="card">
+        <p class="text-muted" style="margin-bottom: 24px;">Fetched from <code>/api/users</code></p>
+        <div id="users-table">
+            <p class="text-muted">Loading...</p>
+        </div>
+        <div id="users-error" style="display: none;">
+            <div class="alert alert-warning">Failed to load users. Make sure the server is running.</div>
+        </div>
+    </div>
+</div>
+<script>
+    fetch('/api/users')
+        .then(res => res.json())
+        .then(data => {
+            const users = data.users;
+            if (users.length === 0) {
+                document.getElementById('users-table').innerHTML = '<p class="text-muted">No users yet. <a href="/">Add your first user</a></p>';
+                return;
+            }
+            let html = '<table><thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Address</th><th>Phone</th><th></th></tr></thead><tbody>';
+            users.forEach(u => {
+                html += `<tr>
+                    <td>${u.id}</td>
+                    <td>${escapeHtml(u.name)}</td>
+                    <td>${escapeHtml(u.email)}</td>
+                    <td>${escapeHtml(u.address || '—')}</td>
+                    <td>${escapeHtml(u.phonenumber || '—')}</td>
+                    <td><a href="/delete/${u.id}" class="btn btn-danger btn-sm">Delete</a></td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('users-table').innerHTML = html;
+        })
+        .catch(() => {
+            document.getElementById('users-table').style.display = 'none';
+            document.getElementById('users-error').style.display = 'block';
+        });
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+</script>
+{% endblock %}

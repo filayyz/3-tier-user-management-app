@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}User Details{% endblock %}
+{% block content %}
+<div class="container-wide">
+    <div class="page-header">
+        <h1 class="hero-title" style="font-size: 32px;">User Details</h1>
+        <div class="actions">
+            <a href="/get-data" class="btn btn-secondary">Back to Lookup</a>
+            <a href="/users" class="btn btn-secondary">View All Users</a>
+        </div>
+    </div>
+    {% if data %}
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>
+                        <a href="/delete/{{ row[0] }}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="text-muted" style="margin-top: 20px;">Lookup ID: {{ input_id }}</p>
+    </div>
+    {% else %}
+    <div class="card">
+        <p class="text-muted">No user found with ID {{ input_id }}.</p>
+        <a href="/get-data" class="btn btn-primary" style="margin-top: 20px;">Try Another ID</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

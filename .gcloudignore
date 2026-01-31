@@ -1,0 +1,11 @@
+.git
+.gitignore
+.env
+.env.example
+*.pyc
+__pycache__
+.pytest_cache
+.venv
+venv
+*.md
+.cursor

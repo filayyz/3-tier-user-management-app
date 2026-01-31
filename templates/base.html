@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}User Management{% endblock %} | Trial 3-Tier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbfbfd;
+            --bg-elevated: #ffffff;
+            --text: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --text-tertiary: #86868b;
+            --link: #0071e3;
+            --link-hover: #0077ed;
+            --border: rgba(0,0,0,0.06);
+            --border-focus: #0071e3;
+            --red: #ff3b30;
+            --red-hover: #ff453a;
+            --radius: 12px;
+            --radius-full: 980px;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 24px rgba(0,0,0,0.06);
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 17px;
+            line-height: 1.47059;
+            font-weight: 400;
+            letter-spacing: -0.022em;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: rgba(251, 251, 253, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border);
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .navbar-brand img { border-radius: 6px; }
+        .nav-links {
+            display: flex;
+            gap: 2px;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 500;
+            transition: color var(--transition), background var(--transition);
+        }
+        .nav-links a:hover {
+            color: var(--text);
+        }
+        .nav-links a.active {
+            color: var(--link);
+        }
+        .hero {
+            padding: 52px 22px 48px;
+            text-align: center;
+        }
+        .hero-title {
+            font-size: 40px;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            line-height: 1.1;
+            margin-bottom: 6px;
+        }
+        .hero-subtitle {
+            font-size: 21px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 22px 80px;
+        }
+        .container-wide {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 22px 80px;
+        }
+        .card {
+            background: var(--bg-elevated);
+            border-radius: 18px;
+            padding: 40px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        .section-title {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            margin-bottom: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 17px;
+            font-family: inherit;
+            background: var(--bg-elevated);
+            transition: border-color var(--transition), box-shadow var(--transition);
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-tertiary);
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 22px;
+            font-size: 17px;
+            font-weight: 500;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            transition: background var(--transition), transform 0.1s ease;
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-primary {
+            background: var(--link);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: var(--link-hover);
+        }
+        .btn-danger {
+            background: var(--red);
+            color: white;
+        }
+        .btn-danger:hover {
+            background: var(--red-hover);
+        }
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--link);
+        }
+        .btn-secondary:hover {
+            background: rgba(0, 113, 227, 0.08);
+        }
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(0,0,0,0.02); }
+        .text-muted { color: var(--text-secondary); font-size: 14px; }
+        .text-muted a { color: var(--link); text-decoration: none; }
+        .text-muted a:hover { text-decoration: underline; }
+        .alert {
+            padding: 16px 20px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .alert-info {
+            background: rgba(0, 113, 227, 0.08);
+            color: var(--link);
+        }
+        .alert-warning {
+            background: rgba(255, 59, 48, 0.08);
+            color: var(--red);
+        }
+        .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .page-header .section-title { margin-bottom: 0; }
+        code {
+            font-size: 13px;
+            background: var(--bg);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+        {% block extra_css %}{% endblock %}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">
+            <img src="https://storage.googleapis.com/bkt-static-tt/logo.png" width="28" height="28" alt="">
+            Trial 3-Tier
+        </a>
+        <div class="nav-links">
+            <a href="/" class="{% if request.endpoint == 'index' %}active{% endif %}">Add User</a>
+            <a href="/get-data" class="{% if request.endpoint == 'get_data' %}active{% endif %}">Lookup</a>
+            <a href="/users" class="{% if request.endpoint == 'users_list' %}active{% endif %}">All Users</a>
+        </div>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

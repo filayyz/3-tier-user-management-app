@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}User Added{% endblock %}
+{% block content %}
+<div class="hero">
+    <h1 class="hero-title">User Added</h1>
+    <p class="hero-subtitle">The new user has been saved successfully.</p>
+</div>
+<div class="container-wide">
+    <div class="card">
+        <div class="alert alert-info">User profile has been created and stored in the database.</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="text-muted" style="margin-top: 20px;">Password is stored securely (hashed).</p>
+        <div class="actions" style="margin-top: 28px;">
+            <a href="/" class="btn btn-primary">Add Another User</a>
+            <a href="/users" class="btn btn-secondary">View All Users</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
