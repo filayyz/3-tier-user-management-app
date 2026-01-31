@@ -87,7 +87,3 @@ gcloud builds submit --config=cloudbuild.yaml \
 ```
 
 Ensure your Cloud Run service account has **Cloud SQL Client** role.
-
-
-
-Happy coding!
