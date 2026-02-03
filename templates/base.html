@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}User Management{% endblock %} | Trial 3-Tier</title>
+    <title>{% block title %}User Management{% endblock %} | User Management Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -255,8 +255,17 @@
 <body>
     <nav class="navbar">
         <a href="/" class="navbar-brand">
-            <img src="https://storage.googleapis.com/bkt-static-tt/logo.png" width="28" height="28" alt="">
-            Trial 3-Tier
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="28" height="28" rx="6" fill="url(#gradient)"/>
+                <text x="14" y="19" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">UMP</text>
+                <defs>
+                    <linearGradient id="gradient" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#0071e3"/>
+                        <stop offset="1" stop-color="#0077ed"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            User Management Pro
         </a>
         <div class="nav-links">
             <a href="/" class="{% if request.endpoint == 'index' %}active{% endif %}">Add User</a>

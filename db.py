@@ -36,8 +36,17 @@ def get_connection():
     """Get a database connection."""
     if _use_sqlite():
         import sqlite3
+        import logging
         db_path = os.environ.get("SQLITE_DB", "local.db")
-        conn = sqlite3.connect(db_path)
+        # Ensure directory exists and is writable
+        db_dir = os.path.dirname(db_path)
+        if db_dir and not os.path.exists(db_dir):
+            try:
+                os.makedirs(db_dir, exist_ok=True)
+            except Exception as e:
+                logging.warning(f"Could not create directory {db_dir}: {e}")
+        logging.info(f"Connecting to SQLite database at: {db_path}")
+        conn = sqlite3.connect(db_path, check_same_thread=False)
         conn.row_factory = lambda c, r: r  # Return tuples like MySQL
         return SQLiteConnection(conn)
     elif os.environ.get("INSTANCE_CONNECTION_NAME"):

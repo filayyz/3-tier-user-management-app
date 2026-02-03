@@ -1,5 +1,6 @@
 """Flask User Management App with REST API and Cloud SQL."""
 import os
+import logging
 from functools import wraps
 
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
@@ -8,6 +9,15 @@ import bcrypt
 from db import get_connection
 
 app = Flask(__name__)
+logging.basicConfig(level=logging.INFO)
+
+# Initialize database on app startup
+@app.before_request
+def ensure_db():
+    """Ensure database table exists before first request."""
+    if not hasattr(app, '_db_initialized'):
+        init_db()
+        app._db_initialized = True
 
 
 def get_db():
@@ -81,23 +91,27 @@ def submit():
     if not all([name, email, address, phonenumber, password]):
         return redirect(url_for('index'))
 
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-
-    db = get_db()
-    cursor = db.cursor()
     try:
-        cursor.execute(
-            "INSERT INTO user (name, email, Address, phonenumber, password) VALUES (%s, %s, %s, %s, %s)",
-            (name, email, address, phonenumber, hashed_password)
-        )
-        db.commit()
-        cursor.execute("SELECT * FROM user ORDER BY id DESC LIMIT 1")
-        data = cursor.fetchall()
-    finally:
-        cursor.close()
-        db.close()
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
-    return render_template('submitteddata.html', data=data)
+        db = get_db()
+        cursor = db.cursor()
+        try:
+            cursor.execute(
+                "INSERT INTO user (name, email, Address, phonenumber, password) VALUES (%s, %s, %s, %s, %s)",
+                (name, email, address, phonenumber, hashed_password)
+            )
+            db.commit()
+            cursor.execute("SELECT * FROM user ORDER BY id DESC LIMIT 1")
+            data = cursor.fetchall()
+        finally:
+            cursor.close()
+            db.close()
+
+        return render_template('submitteddata.html', data=data)
+    except Exception as e:
+        logging.error(f"Error adding user: {e}")
+        return f"Error: {str(e)}", 500
 
 
 @app.route('/get-data', methods=['GET', 'POST'])
