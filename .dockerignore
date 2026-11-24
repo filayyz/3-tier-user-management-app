@@ -1,0 +1,16 @@
+.git
+.gitignore
+.gcloudignore
+.env
+.env.example
+*.pyc
+__pycache__
+.pytest_cache
+.venv
+venv
+*.md
+.cursor
+data
+*.db
+deploy.sh
+cloudbuild.yaml

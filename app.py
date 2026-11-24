@@ -11,6 +11,30 @@ from db import get_connection
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 
+# def validate_user_input(name, email, address, phonenumber, password):
+#     #Validate user input for length and format
+#     errors = []
+
+#     #Check max lengths
+#     if len(name) > 100:
+#         errors.append("Name exceeds maxiumun length of 100 characters.")
+#     if len(email) > 255:
+#         errors.append("Email exceeds maxiumum length of 255 characters.")
+#     if len(password) > 8: 
+#         errors.append("Password is too long. Must be 8 or less characters.")
+#     if len(address) > 50:
+#         error.append("Address exceeds maximum length of 50 characters.")
+#     if len(phonenumber) > 10: 
+#         errors.append("Phone number is too long. Do not include "()" or spaces.")
+#         errors.append("Phone number is too long. Do not include ( or ) or spaces.")
+        
+#     #Validate email format
+#     if '@' not in email or "." not in email:
+#         errors.append("Invalid email address.")
+    
+#     return errors 
+
+
 # Initialize database on app startup
 @app.before_request
 def ensure_db():
